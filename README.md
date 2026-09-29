@@ -1,34 +1,29 @@
 # 月下问仙录
 
-一款以文字与山海画卷为主的单人修仙模拟器。在照夜残镜的引领下，从命格与先天气运出发，探索奇遇、拜入仙门、修炼炼丹、突破渡劫，并让旧日因果在多年后回到你的故事里。
+[在线游玩](https://moonlit-immortal-chronicle.dingikang.chatgpt.site/) · 文字修仙模拟器
 
-**在线游玩：** https://moonlit-immortal-chronicle.dingikang.chatgpt.site
+选择出身与先天气运，在山海奇遇中修炼、拜师、炼丹、渡劫，并在筑基后收徒。弟子会随年岁成长，旧日的善缘与债也可能多年后找上门。
 
-## 玩法
+## 云端存档
 
-- 开局选择出身，再从三种先天天赋中择一。天赋有收益和代价，会影响修炼、炼丹、渡劫与师徒。
-- 外出探索带分支的奇遇；道心、因果、修为和资源随抉择改变。救过的人或留下的旧债可能多年后重逢。
-- 筑基后可收徒，安排弟子随师修行、闭关或游历。弟子按年成长，可能突破、带回灵草、遇险或离宗。
-- 拜入剑宗、丹谷或玄门，使用灵草和灵石炼丹，准备丹药或阵法渡劫。
-- 仙途手札记录经历与逐年的天下大事，抵达飞升境后可写下不同终章。
+游戏进度写入 Sites 提供的 D1 数据库，以 ChatGPT 登录用户 ID 为键。每个账号保存一份完整仙途；浏览器本地存储保留离线缓存，并可迁移原有的本地存档。不同设备的进度冲突会要求玩家选择保留哪一份。数据库表定义在 `db/schema.ts`，迁移位于 `drizzle/`，读写接口为 `app/api/save/route.ts`。
 
-右上角 **设置 → 测试 · 无限物资** 可开启不限量灵石、灵草、丹药和神识，以及必定成功的渡劫。另有一键补满当前境界修为。
+设置中仍提供「测试 · 无限物资」及补满当前境界修为。测试状态与游戏进度一起保存。
 
-## 本地运行
+## 本地开发
 
-这是无需构建的静态网页。在仓库目录运行：
+需要 Node.js 22.13 及以上。按项目使用的锁文件安装依赖：
 
 ```bash
-python3 -m http.server 8000 --directory dist
+pnpm install --frozen-lockfile
+npm run build
 ```
 
-然后打开 http://localhost:8000 。也可直接打开 `dist/index.html`。存档使用浏览器本地存储，同一设备同一浏览器可继续游戏。
+在 Sites 的托管环境中，`.openai/hosting.json` 的逻辑 `DB` 绑定由平台配置并执行迁移。普通本地 D1 预览可在构建后执行已有迁移：
 
-## 文件
+```bash
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_aspiring_dust.sql
+npm start
+```
 
-- `dist/index.html`：页面结构
-- `dist/style.css`：布局和视觉
-- `dist/game.js`：事件、资源、弟子、存档与交互
-- `dist/moonlit-mountains.webp`：山海场景图
-
-此仓库包含游戏可运行源码，未接入服务器账号或支付。
+`npm run dev` 可启动开发服务。游戏界面在 `app/page.tsx`，交互在 `public/game.js`，样式在 `public/style.css`。浏览器中保留旧版 `moonlit-immortal-chronicle-v1` 存档键以支持迁移。

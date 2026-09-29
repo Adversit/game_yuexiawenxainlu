@@ -18,3 +18,4 @@
 .disciple-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.disciple-actions button{padding:10px 6px}
 .world-feed{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.world-feed article{padding:13px;border-left:2px solid #907a52;background:#16282b;color:#c2d0c9;font-size:13px;line-height:1.7}.world-feed time{display:block;color:#c5aa77;font-size:12px;margin-bottom:5px}
 @media(max-width:760px){.disciple-grid,.world-feed{grid-template-columns:1fr}.recruit-card{padding:16px}.disciple-actions button{font-size:12px}}
+.cloud-card{border:1px solid #7d7155;background:#162b2d;padding:16px;margin-bottom:24px}.cloud-card p{margin:8px 0}.cloud-choices{display:grid;gap:7px;padding:12px;border-left:2px solid #c3a468;color:#e1d7be;font-size:13px;line-height:1.7}
